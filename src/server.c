@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:37:47 by pandalaf          #+#    #+#             */
-/*   Updated: 2022/10/25 01:38:52 by pandalaf         ###   ########.fr       */
+/*   Updated: 2022/10/25 01:52:27 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdio.h>
 
 // Variable serves as a received signal (bit) counter.
-static unsigned int	ct;
+static unsigned int	g_ct;
 
 //Function acts when a signal is received.
 void	sigrcv(int sig)
@@ -26,10 +26,10 @@ void	sigrcv(int sig)
 	int				i;
 
 	if (sig == SIGUSR1)
-		arr[ct % 8] = 0;
+		arr[g_ct % 8] = 0;
 	if (sig == SIGUSR2)
-		arr[ct % 8] = 1;
-	if (ct > 1 && (ct + 1) % 8 == 0)
+		arr[g_ct % 8] = 1;
+	if (ct > 1 && (g_ct + 1) % 8 == 0)
 	{
 		num = 0;
 		i = 0;
@@ -39,16 +39,14 @@ void	sigrcv(int sig)
 			i++;
 		}
 		if (num == 255)
-		{
 			write(1, "\n", 1);
-			return ;
-		}
-		write(1, &num, 1);
+		else
+			write(1, &num, 1);
 	}
-	ct++;
-	return ;
+	g_ct++;
 }
 
+//Main program, broadcasts PID to receive signals.
 int	main(void)
 {
 	pid_t	pid;
@@ -57,12 +55,7 @@ int	main(void)
 	printf("PID: %d. Receiving...\n", pid);
 	signal(SIGUSR1, sigrcv);
 	signal(SIGUSR2, sigrcv);
-	while (1);
+	while (1)
+		usleep(1);
 	return (0);
-	
-	// Display own PID
-	// Be ready to receive signals
-	// Write signals when received
-	// Take string from input
-	// Send string to server (PID)
 }
