@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:31:39 by pandalaf          #+#    #+#             */
-/*   Updated: 2022/10/25 01:07:20 by pandalaf         ###   ########.fr       */
+/*   Updated: 2022/10/25 01:54:39 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 #include <signal.h>
 #include <unistd.h>
 
-// Signals OUT - USR1 is 0, USR2 is 1
-
 //Function emits a message-end signal.
 void	end_signal(int pid)
 {
-	int i;
+	int	i;
 
 	i = 1;
-	while(i <= 8)
+	while (i <= 8)
 	{
 		kill(pid, SIGUSR2);
 		usleep(10);
@@ -68,7 +66,7 @@ void	string_signal(char *str, int pid)
 	end_signal(pid);
 }
 
-//* Program 
+//Main program, takes PID and string arguments to send a signal to the PID. 
 int	main(int argc, char **argv)
 {
 	if (argc != 3)
@@ -76,8 +74,6 @@ int	main(int argc, char **argv)
 		ft_printf("Input Error.\n");
 		return (0);
 	}
-	// Take PID from input
-	// Take string from input
-	// Send string signals to server (PID)
+	string_signal(argv[2], ft_atoi(argv[1]));
+	return (0);
 }
-//*/
