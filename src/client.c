@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:31:39 by pandalaf          #+#    #+#             */
-/*   Updated: 2022/10/25 01:54:39 by pandalaf         ###   ########.fr       */
+/*   Updated: 2022/10/25 16:14:23 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	end_signal(int pid)
 	while (i <= 8)
 	{
 		kill(pid, SIGUSR2);
-		usleep(10);
+		usleep(DELAY);
 		i++;
 	}
 }
@@ -50,7 +50,7 @@ void	char_signal(char ch, int pid)
 			kill(pid, SIGUSR2);
 		else if (store[i] == 0)
 			kill(pid, SIGUSR1);
-		usleep(10);
+		usleep(DELAY);
 		i--;
 	}
 }
