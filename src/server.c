@@ -6,16 +6,17 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:37:47 by pandalaf          #+#    #+#             */
-/*   Updated: 2022/10/25 01:52:27 by pandalaf         ###   ########.fr       */
+/*   Updated: 2022/10/25 18:26:55 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minitalk.h"
+#include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
 #include <stdio.h>
 
-// Variable serves as a received signal (bit) counter.
+//Variable serves as a received signal (bit) counter.
 static unsigned int	g_ct;
 
 //Function acts when a signal is received.
@@ -29,7 +30,7 @@ void	sigrcv(int sig)
 		arr[g_ct % 8] = 0;
 	if (sig == SIGUSR2)
 		arr[g_ct % 8] = 1;
-	if (ct > 1 && (g_ct + 1) % 8 == 0)
+	if (g_ct > 1 && (g_ct + 1) % 8 == 0)
 	{
 		num = 0;
 		i = 0;
@@ -49,13 +50,21 @@ void	sigrcv(int sig)
 //Main program, broadcasts PID to receive signals.
 int	main(void)
 {
-	pid_t	pid;
+	pid_t				pid;
+	struct sigaction	act;
 
+	act.sa_handler = &sigrcv;
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = SA_RESTART;
+	sigaddset(&act.sa_mask, SIGINT);
 	pid = getpid();
 	printf("PID: %d. Receiving...\n", pid);
-	signal(SIGUSR1, sigrcv);
-	signal(SIGUSR2, sigrcv);
+	if (sigaction(SIGUSR1, &act, 0) == -1 || sigaction(SIGUSR2, &act, 0) == -1)
+	{
+		ft_printf("Sigaction error.\n");
+		exit(0);
+	}
 	while (1)
-		usleep(1);
+		usleep(10);
 	return (0);
 }
