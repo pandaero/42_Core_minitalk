@@ -17,6 +17,7 @@ int	main(void)
 	printf("PID: %d. Receiving...\n", pid);
 	signal(SIGUSR1, sigrcv);
 	signal(SIGUSR2, sigrcv);
-	while (1);
+	while (1)
+		pause();
 	return (0);
 }
