@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:37:47 by pandalaf          #+#    #+#             */
-/*   Updated: 2022/10/28 13:21:49 by pandalaf         ###   ########.fr       */
+/*   Updated: 2022/10/28 13:49:00 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,6 @@ int	main(void)
 		exit(0);
 	}
 	while (1)
-		usleep(SERVER_DELAY);
+		pause();
 	return (0);
 }
