@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 14:17:01 by pandalaf          #+#    #+#              #
-#    Updated: 2022/10/28 14:10:36 by pandalaf         ###   ########.fr        #
+#    Updated: 2022/10/28 15:12:51 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,10 +23,16 @@ LIBFT_PATH := libft/
 LIBFT_FULL = $(addprefix $(LIBFT_PATH), $(LIBFT))
 # Included source files
 SRC_DIR := src/
-C_SRC := client.c 
+C_SRC := client.c signals.c
 S_SRC := server.c
 C_SRC_FULL = $(addprefix $(SRC_DIR), $(C_SRC))
 S_SRC_FULL = $(addprefix $(SRC_DIR), $(S_SRC))
+# Included bonus source files
+C_BSRC := client_bonus.c signals.c
+S_BSRC := server_bonus.c
+C_BSRC_FULL = $(addprefix $(SRC_DIR), $(C_BSRC))
+S_BSRC_FULL = $(addprefix $(SRC_DIR), $(S_BSRC))
+
 # Make desired targets
 all: directories $(NAME)
 
@@ -41,10 +47,18 @@ bonus: $(BEXECS)
 
 # Make the client executable
 client: $(C_SRC_FULL) minitalk.h $(LIBFT_FULL)
-	$(CC) $(CFLAGS) -o $@ $< $(LIBFT_FULL)
+	$(CC) $(CFLAGS) -o $@ $(C_SRC_FULL) $(LIBFT_FULL)
 
 # Make the server executable
 server: $(S_SRC_FULL) $(LIBFT_FULL)
+	$(CC) $(CFLAGS) -o $@ $< $(LIBFT_FULL)
+
+# Make the client executable
+client_bonus: $(C_BSRC_FULL) minitalk.h $(LIBFT_FULL)
+	$(CC) $(CFLAGS) -o $@ $(C_BSRC_FULL) $(LIBFT_FULL)
+
+# Make the server executable
+server_bonus: $(S_BSRC_FULL) $(LIBFT_FULL)
 	$(CC) $(CFLAGS) -o $@ $< $(LIBFT_FULL)
 
 # Make Libft archive
