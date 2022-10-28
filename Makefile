@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 14:17:01 by pandalaf          #+#    #+#              #
-#    Updated: 2022/10/28 15:12:51 by pandalaf         ###   ########.fr        #
+#    Updated: 2022/10/28 19:26:16 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ clean:
 
 # Clean all non-source files
 fclean: clean
-	rm -f $(EXECS)
+	rm -f $(EXECS) $(BEXECS)
 	make -C $(LIBFT_PATH) fclean
 
 # Wipe all and make again
