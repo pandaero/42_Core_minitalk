@@ -6,41 +6,49 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 14:17:01 by pandalaf          #+#    #+#              #
-#    Updated: 2022/10/24 22:47:21 by pandalaf         ###   ########.fr        #
+#    Updated: 2022/10/28 14:10:36 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Target output
-NAME := client server
-#BNAME := client_bonus server_bonus
+NAME := minitalk
+EXECS := client server
+BEXECS := client_bonus server_bonus
 # Compiler options
 CC := cc
 CFLAGS := -Wall -Werror -Wextra
 # Libft location
 LIBFT := libft.a
 LIBFT_PATH := libft/
+LIBFT_FULL = $(addprefix $(LIBFT_PATH), $(LIBFT))
 # Included source files
 SRC_DIR := src/
-SRC_S := client.c server.c
-#BSRC
-SRCS = $(addprefix $(SRC_DIR), $(SRC_S))
-#BSRC
-# Object files
-OBJ_DIR = obj/
-OBJS = $(addprefix $(OBJ_DIR), $(SRCS:.c=.o))
-
+C_SRC := client.c 
+S_SRC := server.c
+C_SRC_FULL = $(addprefix $(SRC_DIR), $(C_SRC))
+S_SRC_FULL = $(addprefix $(SRC_DIR), $(S_SRC))
 # Make desired targets
 all: directories $(NAME)
 
 # Make required directories
 directories: $(OBJ_DIR)
 
-# Make target archive
-$(NAME): $(OBJS) $(addprefix $(LIBFT_PATH), $(LIBFT))
-	ar -rcs $@ $^
+# Make target executables
+$(NAME): $(EXECS)
+
+# Make bonus executables
+bonus: $(BEXECS)
+
+# Make the client executable
+client: $(C_SRC_FULL) minitalk.h $(LIBFT_FULL)
+	$(CC) $(CFLAGS) -o $@ $< $(LIBFT_FULL)
+
+# Make the server executable
+server: $(S_SRC_FULL) $(LIBFT_FULL)
+	$(CC) $(CFLAGS) -o $@ $< $(LIBFT_FULL)
 
 # Make Libft archive
-$(addprefix $(LIBFT_PATH), $(LIBFT)): $(LIBFT_PATH)
+$(LIBFT_FULL): $(LIBFT_PATH)
 	make -C $(LIBFT_PATH) all
 
 # Make object files
@@ -53,12 +61,11 @@ $(OBJ_DIR):
 
 # Clean intermediary files
 clean:
-	rm -rf $(OBJ_DIR)
 	make -C $(LIBFT_PATH) clean
 
 # Clean all non-source files
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(EXECS)
 	make -C $(LIBFT_PATH) fclean
 
 # Wipe all and make again
