@@ -17,7 +17,6 @@ void	sigtwo(int sig)
 int	main(void)
 {
 	pid_t				pid;
-	int					sigsetret;
 
 	pid = getpid();
 	printf("PID: %d. Receiving.\n", pid);
